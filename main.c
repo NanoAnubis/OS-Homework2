@@ -19,6 +19,7 @@ int main(int argc, char* argv[]) {
     	if(p==-1) {
 		err(2, "Couldn't open file in read only");
     	}
+	//printf("TEST");
 	
     	char magic[3];
     	read(p, &magic, sizeof(magic));
@@ -34,20 +35,20 @@ int main(int argc, char* argv[]) {
     	if(ram == NULL) {
 	   	err(4, "Can't alocate memory");
     	}	
-
+	
     	struct stat st;
     	fstat(p,&st);
     	if((st.st_size-7)%25!=0) {
 	    	errx(5, "File size is wrong");
     	}
-
+	
     	uint8_t opcode;
     	ssize_t r;
 	bool skip = 0;
     	while((r = read(p,&opcode,sizeof(opcode))) > 0) {
 		uint64_t first,second,third;
 		read(p,&first,sizeof(first));
-		read(p,&second,sizeof(second));
+	 	read(p,&second,sizeof(second));
 		read(p,&third,sizeof(third));
 		
 
@@ -112,7 +113,7 @@ int main(int argc, char* argv[]) {
 				break;
 
 			case 0xbf :
-				sleep(ram[first]);
+				sleep(ram[first]/1000);
 				break;
 
 			default:
