@@ -19,18 +19,15 @@ int main(int argc, char* argv[]) {
     	if(p==-1) {
 		err(2, "Couldn't open file in read only");
     	}
-	//printf("TEST");
 	
     	char magic[3];
     	read(p, &magic, sizeof(magic));
-   	//printf("%s",magic);
     	if(strncmp(magic, "ORC", 3) != 0) {
 	    	errx(3, "File format isn't supported");
     	}
 
     	uint32_t ram_size;
     	read(p,&ram_size,sizeof(ram_size));
-    	//printf("%d",ram_size);
     	int64_t* ram = (int64_t*)malloc(ram_size*sizeof(int64_t));
     	if(ram == NULL) {
 	   	err(4, "Can't alocate memory");
@@ -51,15 +48,6 @@ int main(int argc, char* argv[]) {
 	 	read(p,&second,sizeof(second));
 		read(p,&third,sizeof(third));
 		
-
-		//printf("%d",opcode);
-		//printf("%ld",first);
-		//printf("%ld",second);
-		//printf("%ld",third);
-
-
-
-
 		if(skip==1){
 			skip=0;
 			continue;
