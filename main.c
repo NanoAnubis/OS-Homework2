@@ -58,49 +58,81 @@ int main(int argc, char* argv[]) {
 				break;
 
 			case 0x95 :
+				if(first>=ram_size) {
+					errx(6, "Illegal access");
+				}
 				ram[first]=second;	
 				break;
 
 			case 0x5d :
+				if(first>=ram_size || second>=ram_size || ram[second] >= ram_size) {
+					errx(6, "Illegal access");
+				}
 				ram[first]=ram[ram[second]];
 				break;
 
 			case 0x63 :
+				if(first>=ram_size || ram[first]>=ram_size || second>=ram_size) {
+					errx(6, "Illegal access");
+				}
 				ram[ram[first]]=ram[second];
 				break;
 
 			case 0x91 :
-				//printf("%ld",first);
+				if(first>=ram_size) {
+					errx(6, "Illegal access");
+				}
 				lseek(p,7+ram[first]*(1+3*sizeof(first)), SEEK_SET);
 				break;
 
 			case 0x25 :
+				if(first>=ram_size) {
+					errx(6, "Illegal access");
+				}
 				if(ram[first]>0){
 					skip=1;
 				}
 				break;
 
 			case 0xad :
+				if(first>=ram_size || second>=ram_size || third>=ram_size) {
+					errx(6, "Illegal access");
+				}
 				ram[first]=(ram[second]+ram[third]);
 				break;
 
 			case 0x33 :
+				if(first>=ram_size || second>=ram_size || third>=ram_size) {
+					errx(6, "Illegal access");
+				}
 				ram[first]=(ram[second]*ram[third]);
 				break;
 
 			case 0x04 :
+				if(first>=ram_size || second>=ram_size || third>=ram_size || ram[third]==0) {
+					errx(6, "Illegal access or division by zero");
+				}
 				ram[first]=(ram[second]/ram[third]);
 				break;
 
 			case 0xb5 :
+				if(first>=ram_size || second>=ram_size || third>=ram_size || ram[third]==0) {
+					errx(6, "Illegal access or division by zero");
+				}
 				ram[first]=(ram[second]%ram[third]);
 				break;
 
 			case 0xc1 :
-				printf("%c", (int)ram[first]);
+				if(first>=ram_size) {
+					errx(6, "Illegal access");
+				}
+				printf("%c", (char)ram[first]);
 				break;
 
 			case 0xbf :
+				if(first>=ram_size) {
+					errx(6, "Illegal access");
+				}
 				sleep(ram[first]/1000);
 				break;
 
